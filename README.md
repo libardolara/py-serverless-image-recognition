@@ -41,3 +41,23 @@ Cuando termines este Code Pattern, entenderas como:
 
 * Instala [Node.js](https://nodejs.org/) si quiere usar Electron.
 
+# Paso a Paso
+
+### 1. Clonar el repo
+
+Descarga o clona el repositorio `py-serverless-image-recognition` localmente. En una terminal, ejecuta:
+
+```
+$ git clone https://github.com/libardolara/py-serverless-image-recognition
+```
+
+### 2. Crea los servicio de IBM Cloud
+
+Crea el servicio [**Cloudant**](https://console.bluemix.net/catalog/services/cloudant) escogiendo `Use both legacy credentials and IAM` para la opción _Available authentication method_.
+* Crea las credenciales para la instacia y copia el username y password en el archivo `local.env` en el valor de `CLOUDANT_USERNAME` y `CLOUDANT_PASSWORD`.
+* Lanza la consola web de y crea una base de dato llamada `images` y otra llamada `tags`. 
+> Modifica el archivo `local.env` si planeas usar nombres de bases de datos diferentes.
+
+Crea un servicio de [Watson Visual Recognition](https://console.bluemix.net/catalog/services/visual-recognition).
+* Copia el API Key de la seccion de Credentials y pegala en el archivo `local.env` en el valor de `WATSON_VISUAL_APIKEY`
+
