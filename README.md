@@ -1,5 +1,5 @@
 # Función serverless para clasificar imagenes desde Cloudant
-> Inspirado en el repositorio [Serverless Image Recognition with Cloud Functions](https://github.com/IBM/ibm-cloud-functions-refarch-serverless-image-recognition)
+> Inspirado en el repositorio ![Serverless Image Recognition with Cloud Functions](https://github.com/IBM/ibm-cloud-functions-refarch-serverless-image-recognition)
 
 La aplicación demuestra una IBM Cloud Functions (basado en Apache OpenWhisk) que obtiene una imagen desde una base de datos en Cloudant y la clasifica a traves de Watson Visual Recognition. El caso de uso demustra como funcionals las acciones con servicios de datos y ejecuta un codigo en respuesta a un evento en Cloudant.
 
@@ -60,4 +60,98 @@ Crea el servicio [**Cloudant**](https://console.bluemix.net/catalog/services/clo
 
 Crea un servicio de [Watson Visual Recognition](https://console.bluemix.net/catalog/services/visual-recognition).
 * Copia el API Key de la seccion de Credentials y pegala en el archivo `local.env` en el valor de `WATSON_VISUAL_APIKEY`
+
+### 3. Desplegar Cloud Functions
+> Escoge un mentodo de despliegue
+
+#### Desplegar a través del CLI de IBM Cloud Functions
+
+Una vez completo los calores del archivo `local.env`, abre una terminal.
+
+* Inicia sesión en IBM Cloud según la región que desees usando CLI, para ello utiliza uno de los siguientes comandos y sigue las instrucciones: 
+
+```
+$ ibmcloud login
+```
+> Sigue las instrucciones interactivas del CLI
+
+Si deseas cambiar la región puedes usar alguna de los siguientes comandos:
+
+```
+$ ibmcloud login -a https://api.ng.bluemix.net            // US South
+$ ibmcloud login -a https://api.us-east.bluemix.net       // US East
+$ ibmcloud login -a https://api.eu-gb.bluemix.net         // UK
+$ ibmcloud login -a https://api.eu-de.bluemix.net         // Germany
+$ ibmcloud login -a https://api.au-syd.bluemix.net        // Sydney
+```
+> Donde `-a` indica que se va a seleccionar una región de API específica.
+
+*	Observa el resultado del proceso anterior, tu organización y espacio están vacíos. Para configurar la organización y espacio que deseas usar en Cloud Foundry debes ejecutar el siguiente comando.
+
+```
+$ ibmcloud target -–cf
+```
+> Selecciona usando los menús, la organización y espacio que deseas utilizar.
+
+Si deseas cambiar de Organización y de espacio puedes usar el comando
+
+```
+$ ibmcloud target -o <organization name> -s <spacename>
+```
+
+* Posicionate en la carpeta `/actions` 
+* Aplica las variables locales sobre tu terminal. (Si usas Windows tendras que reeplazar cada valor en los comandos que usaras)
+
+```
+$ source local.env
+```
+
+* Instanciar el Package de Cloudant en tu cuenta. Llamaremos el paquete `serverless-python-cloudant-pkg`.
+
+```
+$ ibmcloud wsk package bind /whisk.system/cloudant serverless-python-cloudant-pkg -p username $CLOUDANT_USERNAME -p password $CLOUDANT_PASSWORD -p host ${CLOUDANT_USERNAME}.cloudant.com
+```
+
+* Crear el _Trigger_ que leera el evento de documentos subidos a la base de datos. Llamaremos el Trigger `update-trigger`
+
+```
+$ ibmcloud wsk trigger create update-trigger --feed serverless-python-cloudant-pkg/changes --param dbname $CLOUDANT_IMAGE_DATABASE
+```
+
+* Generar un ambiente virtual usando `virtualenv` que debe llamarse _virtualenv_. Instala en el ambiente virtual la libreria para python de Watson.
+
+```
+$ virtualenv virtualenv
+$ source virtualenv/bin/activate
+(virtualenv) $ pip install watson-developer-cloud
+```
+> Asegurate que la version de watson developer cloud instalada sea mayor a 2.x.x usando `pip freeze`
+
+> Es recomendable crear el virtualenv usando docker con la version estable en IBM Cloud: `docker run --rm -v "$PWD:/tmp" openwhisk/python3action bash -c "cd tmp && virtualenv virtualenv && source virtualenv/bin/activate && pip3 install watson-developer-cloud"`
+
+> Si no usas python puedes descomprimir el archivo `virtualenv.zip`
+
+* Crea un .zip con el `virtualenv` y el codigo en el archivo `__main__.py`
+
+```
+$ zip -r action.zip virtualenv __main__.py
+```
+
+> Puedes crear un .zip mas ligero seleccionando los archivos minimos necesarios corriendo el siguiente comando
+
+```
+$ zip -r action.zip __main__.py virtualenv/bin/activate_this.py virtualenv/lib/python3.6/site-packages/watson_developer_cloud virtualenv/lib/python3.6/site-packages/websocket
+```
+
+* Sube la función, o acción, usando el ambiente en IBM Cloud Function `python-jessie:3`. Llamaremos la acción `update-document`
+
+```
+$ ibmcloud wsk action update update-document action.zip --kind python-jessie:3 --param-file params.json
+```
+
+* Crea una Regla que une la acción y el Trigger. Llamaremos la regla `update-trigger-rule``
+
+```
+$ ibmcloud wsk rule create update-trigger-rule update-trigger update-document
+```
 
