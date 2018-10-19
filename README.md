@@ -55,11 +55,13 @@ $ git clone https://github.com/libardolara/py-serverless-image-recognition
 
 Crea el servicio [**Cloudant**](https://console.bluemix.net/catalog/services/cloudant) escogiendo `Use both legacy credentials and IAM` para la opción _Available authentication method_.
 * Crea las credenciales para la instacia y copia el username y password en el archivo `local.env` en el valor de `CLOUDANT_USERNAME` y `CLOUDANT_PASSWORD`.
+* Copia las mismas credenciales del punto anterior en el archivo `actions/params.json`
 * Lanza la consola web de y crea una base de dato llamada `images` y otra llamada `tags`. 
 > Modifica el archivo `local.env` si planeas usar nombres de bases de datos diferentes.
 
 Crea un servicio de [Watson Visual Recognition](https://console.bluemix.net/catalog/services/visual-recognition).
 * Copia el API Key de la seccion de Credentials y pegala en el archivo `local.env` en el valor de `WATSON_VISUAL_APIKEY`
+* Copia el mismo API Key en el archivo `actions/params.json`
 
 ### 3. Desplegar Cloud Functions
 > Escoge un mentodo de despliegue
@@ -118,7 +120,7 @@ $ ibmcloud wsk package bind /whisk.system/cloudant serverless-python-cloudant-pk
 $ ibmcloud wsk trigger create update-trigger --feed serverless-python-cloudant-pkg/changes --param dbname $CLOUDANT_IMAGE_DATABASE
 ```
 
-* Generar un ambiente virtual usando `virtualenv` que debe llamarse _virtualenv_. Instala en el ambiente virtual la libreria para python de Watson.
+* Generar un ambiente virtual usando `virtualenv` que debe llamarse _virtualenv_. Instala en el ambiente virtual la libreria para Python de Watson.
 
 ```
 $ virtualenv virtualenv
@@ -155,3 +157,25 @@ $ ibmcloud wsk action update update-document action.zip --kind python-jessie:3 -
 $ ibmcloud wsk rule create update-trigger-rule update-trigger update-document
 ```
 
+### 4. Lanzar Aplicación
+
+Configura `atom/web/scripts/upload.js`. Modifica las lineas con las credenciales de Cloudant.
+
+```js
+let usernameCloudant = "YOUR_CLOUDANT_USERNAME"
+let passwordCloudant = "YOUR_CLOUDANT_PASSWORD"
+```
+
+Ejecuta la aplicación Electron o abre el html.
+
+* Electron:
+```
+$ npm install
+$ npm start
+```
+
+* _(o) Doble-click `web/index.html`_
+
+#### Ejemplo
+
+![sample-output](docs/screenshot.png)
