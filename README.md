@@ -161,7 +161,7 @@ $ ibmcloud wsk rule create update-trigger-rule update-trigger update-document
 
 ### 4. Lanzar Aplicación
 
-Configura `atom/web/scripts/upload.js`. Modifica las lineas con las credenciales de Cloudant.
+Configura `electron/web/scripts/upload.js`. Modifica las lineas con las credenciales de Cloudant.
 
 ```js
 let usernameCloudant = "YOUR_CLOUDANT_USERNAME"
