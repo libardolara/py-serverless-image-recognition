@@ -39,6 +39,8 @@ Cuando termines este Code Pattern, entenderas como:
 
 * [Whisk Deploy _(wskdeploy)_](https://github.com/apache/incubator-openwhisk-wskdeploy) es una herramienta que ayuda a describir y desplegar cualquier componente de OpenWhisk usando un archivo Manifest escirto en YAML. Lo usuaras si deseas hacer el despliege despliegue de todos los recursos de Cloud Functions en una sola linea de comandos. Puedes descargar en [releases page](https://github.com/apache/incubator-openwhisk-wskdeploy/releases) y seleccionar el archivo correcto para tu sistema operativo.
 
+* Instala [Python](https://www.python.org/downloads/) para instalar las dependencias en tu computador. `Python <= 3.5`
+
 * Instala [Node.js](https://nodejs.org/) si quiere usar Electron.
 
 # Paso a Paso
@@ -127,7 +129,7 @@ $ virtualenv virtualenv
 $ source virtualenv/bin/activate
 (virtualenv) $ pip install watson-developer-cloud
 ```
-> Asegurate que la version de watson developer cloud instalada sea mayor a 2.x.x usando `pip freeze`
+> Asegurate que la version de watson developer cloud instalada sea mayor a 2.1.0 usando `pip freeze`
 
 > Es recomendable crear el virtualenv usando docker con la version estable en IBM Cloud: `docker run --rm -v "$PWD:/tmp" openwhisk/python3action bash -c "cd tmp && virtualenv virtualenv && source virtualenv/bin/activate && pip3 install watson-developer-cloud"`
 
