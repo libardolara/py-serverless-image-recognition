@@ -104,7 +104,7 @@ $ ibmcloud target -o <organization name> -s <spacename>
 ```
 
 * Posicionate en la carpeta `/actions` 
-* Aplica las variables locales sobre tu terminal. (Si usas Windows tendras que reeplazar cada valor en los comandos que usaras)
+* Aplica las variables locales sobre tu terminal. (Si usas Windows tendrás que reemplazar cada valor en los comandos que se usaran)
 
 ```
 $ source local.env
