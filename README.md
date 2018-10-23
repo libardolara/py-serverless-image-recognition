@@ -1,6 +1,9 @@
 # Función serverless para clasificar imagenes desde Cloudant
 > Inspirado en el repositorio [Serverless Image Recognition with Cloud Functions](https://github.com/IBM/ibm-cloud-functions-refarch-serverless-image-recognition)
 
+## Presentación OpenWhisk - Serverless
+Presentación de introducción a [OpenWhisk - Serverless](https://ibm.box.com/v/wsk-ppt)
+
 La aplicación demuestra una IBM Cloud Functions (basado en Apache OpenWhisk) que obtiene una imagen desde una base de datos en Cloudant y la clasifica a traves de Watson Visual Recognition. El caso de uso demustra como funcionals las acciones con servicios de datos y ejecuta un codigo en respuesta a un evento en Cloudant.
 
 Una función, o acción, es disparada por cambios (en este caso de uso porque se sube un documento) en una base de datos Cloudant. Estos documentos son redirigidos a una acción que envia la imagen a Watson Visual recognition and sube un nuevo documento en Cloudant con los tags producidos por Watson.
