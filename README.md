@@ -41,7 +41,7 @@ Cuando termines este Code Pattern, entenderas como:
 
 * [Whisk Deploy _(wskdeploy)_](https://github.com/apache/incubator-openwhisk-wskdeploy) es una herramienta que ayuda a describir y desplegar cualquier componente de OpenWhisk usando un archivo Manifest escirto en YAML. Lo usuaras si deseas hacer el despliege despliegue de todos los recursos de Cloud Functions en una sola linea de comandos. Puedes descargar en [releases page](https://github.com/apache/incubator-openwhisk-wskdeploy/releases) y seleccionar el archivo correcto para tu sistema operativo.
 
-* Instala [Python](https://www.python.org/downloads/) para instalar las dependencias en tu computador. `Python <= 3.5`
+* Instala [Python](https://www.python.org/downloads/) para instalar las dependencias en tu computador. `Python >= 3.5`
 
 * Instala [Node.js](https://nodejs.org/) si quiere usar Electron.
 
