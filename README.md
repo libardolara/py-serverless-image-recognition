@@ -124,38 +124,15 @@ $ ibmcloud wsk package bind /whisk.system/cloudant serverless-python-cloudant-pk
 $ ibmcloud wsk trigger create update-trigger --feed serverless-python-cloudant-pkg/changes --param dbname $CLOUDANT_IMAGE_DATABASE
 ```
 
-* Generar un ambiente virtual usando `virtualenv` que debe llamarse _virtualenv_. Instala en el ambiente virtual la libreria para Python de Watson.
+> TODO Colocar un link a documentación del uso de librerias propias
+
+* Sube la función, o acción, usando el ambiente en IBM Cloud Function `python:3.7`. Llamaremos la acción `update-document`
 
 ```
-$ virtualenv virtualenv
-$ source virtualenv/bin/activate
-(virtualenv) $ pip install watson-developer-cloud
-```
-> Asegurate que la version de watson developer cloud instalada sea mayor a 2.1.0 usando `pip freeze`
-
-> Es recomendable crear el virtualenv usando docker con la version estable en IBM Cloud: `docker run --rm -v "$PWD:/tmp" openwhisk/python3action bash -c "cd tmp && virtualenv virtualenv && source virtualenv/bin/activate && pip3 install watson-developer-cloud"`
-
-> Si no usas python puedes descomprimir el archivo `virtualenv.zip`
-
-* Crea un .zip con el `virtualenv` y el codigo en el archivo `__main__.py`
-
-```
-$ zip -r action.zip virtualenv __main__.py
+$ ibmcloud wsk action update update-document __main__.py --kind python:3.7 --param-file params.json
 ```
 
-> Puedes crear un .zip mas ligero seleccionando los archivos minimos necesarios corriendo el siguiente comando
-
-```
-$ zip -r action.zip __main__.py virtualenv/bin/activate_this.py virtualenv/lib/python3.6/site-packages/watson_developer_cloud virtualenv/lib/python3.6/site-packages/websocket
-```
-
-* Sube la función, o acción, usando el ambiente en IBM Cloud Function `python-jessie:3`. Llamaremos la acción `update-document`
-
-```
-$ ibmcloud wsk action update update-document action.zip --kind python-jessie:3 --param-file params.json
-```
-
-* Crea una Regla que une la acción y el Trigger. Llamaremos la regla `update-trigger-rule``
+* Crea una Regla que une la acción y el Trigger. Llamaremos la regla `update-trigger-rule`
 
 ```
 $ ibmcloud wsk rule create update-trigger-rule update-trigger update-document
