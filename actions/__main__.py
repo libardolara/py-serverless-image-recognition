@@ -1,4 +1,3 @@
-import sys
 import os
 import json
 from watson_developer_cloud import VisualRecognitionV3
@@ -19,7 +18,7 @@ def main(args):
     dbname = args["dbname"]
     dbNameProcessed = args["dbname_processed"]
 
-    id = args.get("id","")
+    id = args["id"]
     print(id)
     my_database = client[dbname]
     my_doc = my_database[id]
