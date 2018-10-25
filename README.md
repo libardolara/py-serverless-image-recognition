@@ -124,13 +124,13 @@ $ ibmcloud wsk package bind /whisk.system/cloudant serverless-python-cloudant-pk
 $ ibmcloud wsk trigger create update-trigger --feed serverless-python-cloudant-pkg/changes --param dbname $CLOUDANT_IMAGE_DATABASE
 ```
 
-> TODO Colocar un link a documentación del uso de librerias propias
-
 * Sube la función, o acción, usando el ambiente en IBM Cloud Function `python:3.7`. Llamaremos la acción `update-document`
 
 ```
 $ ibmcloud wsk action update update-document __main__.py --kind python:3.7 --param-file params.json
 ```
+
+> Si deseas conocer como usar librerias propias en una acción puedes revisar la [documentación](https://console.bluemix.net/docs/openwhisk/openwhisk_actions.html#creating-python-actions)
 
 * Crea una Regla que une la acción y el Trigger. Llamaremos la regla `update-trigger-rule`
 
