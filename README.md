@@ -33,7 +33,7 @@ Cuando termines este Code Pattern, entenderas como:
 ## Tecnologias Importantes
 
 * [Watson](https://www.ibm.com/watson/developer/): Watson en IBM Cloud permite integrar herramientas de AI en tu aplicación y guardar, entrenar y manejar tu data en una nube segura.
-* [Serverless](https://www.ibm.com/cloud-computing/bluemix/openwhisk): Una plataforma basada en eventos que permite ejecutra codigo como respuesta a un evento.
+* [Serverless](https://www.ibm.com/cloud/functions): Una plataforma basada en eventos que permite ejecutra codigo como respuesta a un evento.
 
 # Prerequisitos
 
