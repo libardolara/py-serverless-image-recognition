@@ -37,7 +37,7 @@ Cuando termines este Code Pattern, entenderas como:
 
 # Prerequisitos
 
-* [IBM Cloud Functions CLI](https://console.bluemix.net/openwhisk/learn/cli) para crear cloud functions desde la terminal. Haz una prueba de una acción `ibmcloud wsk action invoke /whisk.system/utils/echo -p message hello --result` para que tu `~/.wskprops` apunte a la cuenta correcta.
+* [IBM Cloud Functions CLI](https://cloud.ibm.com/openwhisk/learn/cli) para crear cloud functions desde la terminal. Haz una prueba de una acción `ibmcloud wsk action invoke /whisk.system/utils/echo -p message hello --result` para que tu `~/.wskprops` apunte a la cuenta correcta.
 
 * [Whisk Deploy _(wskdeploy)_](https://github.com/apache/incubator-openwhisk-wskdeploy) es una herramienta que ayuda a describir y desplegar cualquier componente de OpenWhisk usando un archivo Manifest escirto en YAML. Lo usuaras si deseas hacer el despliege despliegue de todos los recursos de Cloud Functions en una sola linea de comandos. Puedes descargar en [releases page](https://github.com/apache/incubator-openwhisk-wskdeploy/releases) y seleccionar el archivo correcto para tu sistema operativo.
 
@@ -57,13 +57,13 @@ $ git clone https://github.com/libardolara/py-serverless-image-recognition
 
 ### 2. Crea los servicio de IBM Cloud
 
-Crea el servicio [**Cloudant**](https://console.bluemix.net/catalog/services/cloudant) escogiendo `Use both legacy credentials and IAM` para la opción _Available authentication method_.
+Crea el servicio [**Cloudant**](https://cloud.ibm.com/catalog/services/cloudant) escogiendo `Use both legacy credentials and IAM` para la opción _Available authentication method_.
 * Crea las credenciales para la instacia y copia el username y password en el archivo `local.env` en el valor de `CLOUDANT_USERNAME` y `CLOUDANT_PASSWORD`.
 * Copia las mismas credenciales del punto anterior en el archivo `actions/params.json`
 * Lanza la consola web de y crea una base de dato llamada `images` y otra llamada `tags`. 
 > Modifica el archivo `local.env` si planeas usar nombres de bases de datos diferentes.
 
-Crea un servicio de [Watson Visual Recognition](https://console.bluemix.net/catalog/services/visual-recognition).
+Crea un servicio de [Watson Visual Recognition](https://cloud.ibm.com/catalog/services/visual-recognition).
 * Copia el API Key de la seccion de Credentials y pegala en el archivo `local.env` en el valor de `WATSON_VISUAL_APIKEY`
 * Copia el mismo API Key en el archivo `actions/params.json`
 
