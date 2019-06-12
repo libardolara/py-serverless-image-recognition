@@ -57,17 +57,23 @@ $ git clone https://github.com/libardolara/py-serverless-image-recognition
 
 ### 2. Crea los servicio de IBM Cloud
 
+#### 2.1. CloudantDB
+
 Crea el servicio [**Cloudant**](https://cloud.ibm.com/catalog/services/cloudant) escogiendo `Use both legacy credentials and IAM` para la opción _Available authentication method_.
 * Crea las credenciales para la instacia y copia el username y password en el archivo `local.env` en el valor de `CLOUDANT_USERNAME` y `CLOUDANT_PASSWORD`.
 * Copia las mismas credenciales del punto anterior en el archivo `actions/params.json`
 * Lanza la consola web de y crea una base de dato llamada `images` y otra llamada `tags`. 
+
 > Modifica el archivo `local.env` si planeas usar nombres de bases de datos diferentes.
+
+#### 2.2. Visual Recognition
 
 Crea un servicio de [Watson Visual Recognition](https://cloud.ibm.com/catalog/services/visual-recognition).
 * Copia el API Key de la seccion de Credentials y pegala en el archivo `local.env` en el valor de `WATSON_VISUAL_APIKEY`
 * Copia el mismo API Key en el archivo `actions/params.json`
 
 ### 3. Desplegar Cloud Functions
+
 > Escoge un mentodo de despliegue
 
 #### Desplegar a través del CLI de IBM Cloud Functions
@@ -105,13 +111,14 @@ Si deseas cambiar de Organización y de espacio puedes usar el comando
 $ ibmcloud target -o <organization name> -s <spacename>
 ```
 
-* Posicionate en la carpeta `/actions` 
+* Posicionate en la raiz 
 * Aplica las variables locales sobre tu terminal. (Si usas Windows tendrás que reemplazar cada valor en los comandos que se usaran)
 
 ```
 $ source local.env
 ```
 
+* Posicionate en la carpeta `/actions` 
 * Instanciar el Package de Cloudant en tu cuenta. Llamaremos el paquete `serverless-python-cloudant-pkg`.
 
 ```
@@ -130,7 +137,7 @@ $ ibmcloud wsk trigger create update-trigger --feed serverless-python-cloudant-p
 $ ibmcloud wsk action update update-document __main__.py --kind python:3.7 --param-file params.json
 ```
 
-> Si deseas conocer como usar librerias propias en una acción puedes revisar la [documentación](https://console.bluemix.net/docs/openwhisk/openwhisk_actions.html#creating-python-actions)
+> Si deseas conocer como usar librerias propias en una acción puedes revisar la [documentación](https://cloud.ibm.com/docs/openwhisk?topic=cloud-functions-getting-started#creating-python-actions)
 
 * Crea una Regla que une la acción y el Trigger. Llamaremos la regla `update-trigger-rule`
 
@@ -138,25 +145,46 @@ $ ibmcloud wsk action update update-document __main__.py --kind python:3.7 --par
 $ ibmcloud wsk rule create update-trigger-rule update-trigger update-document
 ```
 
+Para borrar los elementos creados de OpenWhisk:
+
+$ ibmcloud wsk package delete serverless-python-cloudant-pkg 
+$ ibmcloud wsk trigger delete update-trigger
+$ ibmcloud wsk action delete update-document
+$ ibmcloud wsk rule delete update-trigger-rule
+
 ### 4. Lanzar Aplicación
 
-Configura `electron/web/scripts/upload.js`. Modifica las lineas con las credenciales de Cloudant.
+Puedes probar la función utilizando una aplicación en Electron contendia en este proyecto.
+
+* Configura `electron/web/scripts/upload.js`. Modifica las lineas con las credenciales de Cloudant.
 
 ```js
 let usernameCloudant = "YOUR_CLOUDANT_USERNAME"
 let passwordCloudant = "YOUR_CLOUDANT_PASSWORD"
 ```
 
-Ejecuta la aplicación Electron o abre el html.
+Ejecuta la aplicación Electron o el HTML.
 
-* Electron:
+* Doble-click `/electron/web/index.html`
+
+* _(o) Electron_:
+
 ```
 $ npm install
 $ npm start
 ```
 
-* _(o) Doble-click `web/index.html`_
-
 #### Ejemplo
 
 ![sample-output](docs/screenshot.png)
+
+### 5. (Opcional) Probar con Aplicación Web
+
+Puedes probar la función utilizando el proyecto desarrollado en el repositorio [Aplicacón web con Cloudant](https://github.com/libardolara/nodejs-cloudant)
+
+Para esto debes repetir los pasos del numeral **3** y cambiar el valor **CLOUDANT_IMAGE_DATABASE** en _local.env_ por `my_sample_db`. Tambien debes cambiar el valor **dbname** en el archivo `actions/params.json` por `my_sample_db`.
+
+> Si tienes problemas repitiendo el numeral 3, es necesario que borres todos los elementos creados de OpenWhisk.
+
+* Una vez hayas repetido el numeral 3, abre tu **Aplicacón web con Cloudant** y sube una foto.
+* Ve a dashboard de CloudantDB y observa que en la DB **tags** se creo un nuevo documento con los resultados del visual recognition.
