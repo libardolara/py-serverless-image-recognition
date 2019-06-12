@@ -145,12 +145,6 @@ $ ibmcloud wsk action update update-document __main__.py --kind python:3.7 --par
 $ ibmcloud wsk rule create update-trigger-rule update-trigger update-document
 ```
 
-Para borrar los elementos creados de OpenWhisk:
-
-$ ibmcloud wsk package delete serverless-python-cloudant-pkg 
-$ ibmcloud wsk trigger delete update-trigger
-$ ibmcloud wsk action delete update-document
-$ ibmcloud wsk rule delete update-trigger-rule
 
 ### 4. Lanzar Aplicación
 
@@ -178,7 +172,18 @@ $ npm start
 
 ![sample-output](docs/screenshot.png)
 
-### 5. (Opcional) Probar con Aplicación Web
+### 5. (Opcional) Limpieza
+
+
+Para borrar los elementos creados de OpenWhisk:
+```
+$ ibmcloud wsk package delete serverless-python-cloudant-pkg 
+$ ibmcloud wsk trigger delete update-trigger
+$ ibmcloud wsk action delete update-document
+$ ibmcloud wsk rule delete update-trigger-rule
+```
+
+### 6. (Opcional) Probar con Aplicación Web
 
 Puedes probar la función utilizando el proyecto desarrollado en el repositorio [Aplicacón web con Cloudant](https://github.com/libardolara/nodejs-cloudant)
 
