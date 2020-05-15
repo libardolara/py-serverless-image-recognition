@@ -45,6 +45,13 @@ Cuando termines este Code Pattern, entenderas como:
 
 * Instala [Node.js](https://nodejs.org/) si quiere usar Electron.
 
+
+# Ver los videos
+Este repositorio cubre los videos del 7 y 8 del siguiente listado
+
+
+[![](https://img.youtube.com/vi/f79JXtg6PzM/0.jpg)](https://www.youtube.com/watch?v=f79JXtg6PzM&list=PLSMvxXwhRqaHPE5scGCepRQPUGVlwxXfV&index=7)
+
 # Paso a Paso
 
 ### 1. Clonar el repo
